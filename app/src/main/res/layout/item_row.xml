@@ -25,7 +25,8 @@
             android:textColor="#000"
             android:textStyle="bold"
             android:layout_margin="5dp"
-            android:textSize="20sp"/>
+            android:textSize="20sp"
+            android:id="@+id/item_text"/>
 
         <TextView
             android:layout_width="match_parent"
