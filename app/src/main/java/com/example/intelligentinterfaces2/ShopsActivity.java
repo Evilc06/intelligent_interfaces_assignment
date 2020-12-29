@@ -20,10 +20,16 @@ public class ShopsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shops);
         shopList = findViewById(R.id.recommended_shops_list);
+
         dataModelShops = new ArrayList<RowDataModelShops>();
-        for( int i = 0; i < 5; i ++){
-            dataModelShops.add(new RowDataModelShops("Shop" + i));
-        }
+
+        dataModelShops.add(new RowDataModelShops("Lidl Santa Venera", R.drawable.lidl));
+        dataModelShops.add(new RowDataModelShops("Valyou Naxxar", R.drawable.valyou));
+        dataModelShops.add(new RowDataModelShops("Park Towers Santa Venera", R.drawable.parktowers));
+        dataModelShops.add(new RowDataModelShops("Scotts Sliema", R.drawable.scotts));
+        dataModelShops.add(new RowDataModelShops("PAVI Qormi", R.drawable.pavi));
+        dataModelShops.add(new RowDataModelShops("PAMA Mosta", R.drawable.pama));
+        dataModelShops.add(new RowDataModelShops("Smart Supermarket Birkirkara", R.drawable.smart));
 
         customAdapterShops = new CustomAdapterShops(dataModelShops,getApplicationContext());
         shopList.setAdapter(customAdapterShops);
