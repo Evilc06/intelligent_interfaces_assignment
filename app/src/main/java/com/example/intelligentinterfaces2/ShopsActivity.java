@@ -19,6 +19,7 @@ public class ShopsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shops);
+        getSupportActionBar().setTitle("Shops");
         shopList = findViewById(R.id.recommended_shops_list);
         dataModelShops = new ArrayList<RowDataModelShops>();
         for( int i = 0; i < 5; i ++){
