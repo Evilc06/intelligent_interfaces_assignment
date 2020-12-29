@@ -6,7 +6,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".ObjectDetection">
+    tools:context=".ObjectDetection"
+    android:background="@drawable/list_bg">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detect an Object"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="25sp"
+        app:layout_constraintBottom_toTopOf= "parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:layout_width="240dp"
@@ -15,17 +29,42 @@
         android:id="@+id/image"/>
 
     <Button
+        android:id="@+id/button"
+        android:layout_width="177dp"
+        android:layout_height="40dp"
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
         android:text="Select Image"
-        android:id="@+id/button"/>
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="________"
+        android:textColor="#000"
+        android:layout_margin="5dp"
+        android:textSize="20sp"
         android:gravity="center"
         android:textStyle="bold"
         android:id="@+id/text"/>
+
+    <Button
+        android:id="@+id/gotoshops"
+        android:layout_width="127dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/buttonshape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="Visit Shops"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="14sp"
+        android:visibility="invisible"/>
 </LinearLayout>
