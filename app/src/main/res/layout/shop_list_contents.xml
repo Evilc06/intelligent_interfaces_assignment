@@ -10,8 +10,7 @@
     <ImageView
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/row_image"/>
+        android:id="@+id/row_image_shops"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +25,7 @@
             android:textStyle="bold"
             android:layout_margin="5dp"
             android:textSize="20sp"
-            android:id="@+id/item_text"/>
+            android:id="@+id/shop_text"/>
 
         <TextView
             android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,11 +22,12 @@ public class CustomAdapterShops extends ArrayAdapter<RowDataModelShops> implemen
     Context mContext;
 
     private static class ViewHolder {
-        TextView itemTxtName;
+        TextView shopName;
+        ImageView shopImage;
     }
 
     public CustomAdapterShops(ArrayList<RowDataModelShops> data, Context context){
-        super(context, R.layout.item_row, data);
+        super(context, R.layout.shop_list_contents, data);
         this.dataset = data;
         this.mContext = context;
     }
@@ -62,8 +64,8 @@ public class CustomAdapterShops extends ArrayAdapter<RowDataModelShops> implemen
 
         switch (v.getId())
         {
-            case R.id.item_text:
-                Snackbar.make(v, "Shop " +dataModelShops.getItem(), Snackbar.LENGTH_LONG)
+            case R.id.shop_text:
+                Snackbar.make(v, dataModelShops.getItem(), Snackbar.LENGTH_LONG)
                         .setAction("No action", null).show();
                 break;
         }
@@ -84,8 +86,9 @@ public class CustomAdapterShops extends ArrayAdapter<RowDataModelShops> implemen
 
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.item_row, parent, false);
-            viewHolder.itemTxtName = (TextView) convertView.findViewById(R.id.item_text);
+            convertView = inflater.inflate(R.layout.shop_list_contents, parent, false);
+            viewHolder.shopName = (TextView) convertView.findViewById(R.id.shop_text);
+            viewHolder.shopImage = (ImageView) convertView.findViewById(R.id.row_image_shops);
 
             result=convertView;
 
@@ -99,7 +102,8 @@ public class CustomAdapterShops extends ArrayAdapter<RowDataModelShops> implemen
         result.startAnimation(animation);
         lastPosition = position;
 
-        viewHolder.itemTxtName.setText(dataModelShops.getItem());
+        viewHolder.shopName.setText(dataModelShops.getItem());
+        viewHolder.shopImage.setImageResource(dataModelShops.getName());
 
         // Return the completed view to render on screen
         return convertView;
