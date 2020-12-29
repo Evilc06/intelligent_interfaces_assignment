@@ -181,7 +181,12 @@ public class ObjectDetection extends AppCompatActivity {
                     }
                     //textView.append(eachLabel + " : " + (""+confidence * 100).subSequence(0,4)+"%"+"\n");
                 }
-                textView.append(labelName + " : " + (""+labelPercentage).subSequence(0,4)+"%"+"\n");
+                if(labelPercentage >= 65f){
+                    textView.append(labelName + " : " + (""+labelPercentage).subSequence(0,4)+"%"+"\n");
+                }else{
+                    textView.append("No items detected.");
+                }
+
                 shops.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
