@@ -3,6 +3,7 @@ package com.example.intelligentinterfaces2;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -13,6 +14,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -38,11 +42,15 @@ import java.util.List;
 public class ObjectDetection extends AppCompatActivity {
     ImageView imageView;
     Button button;
+    Button shops;
     TextView textView;
 
     ProgressDialog dialog;
     static final int ACCESS_FILE = 10;
     static final int PERMISSION_FILE = 20;
+
+    private float labelPercentage = 0f;
+    private String labelName = "";
 
     FirebaseAutoMLRemoteModel remoteModel = new FirebaseAutoMLRemoteModel.Builder("Food_2020121616212").build();
     FirebaseModelDownloadConditions conditions = new FirebaseModelDownloadConditions.Builder()
@@ -56,9 +64,11 @@ public class ObjectDetection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_object_detection);
+        getSupportActionBar().setTitle("Object Detection");
 
         imageView = findViewById(R.id.image);
         button = findViewById(R.id.button);
+        shops = findViewById(R.id.gotoshops);
         textView = findViewById(R.id.text);
 
         dialog = new ProgressDialog(this);
@@ -76,6 +86,30 @@ public class ObjectDetection extends AppCompatActivity {
                 }
             }
         });
+
+        shops.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                VisitShops();
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item1:
+                Intent intent = new Intent(this, RecommenderActivity.class);
+                startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -114,8 +148,14 @@ public class ObjectDetection extends AppCompatActivity {
                 for(FirebaseVisionImageLabel label : labels){
                     String eachLabel = label.getText().toUpperCase();
                     float confidence = label.getConfidence();
-                    textView.append(eachLabel + " : " + (""+confidence * 100).subSequence(0,4)+"%"+"\n");
+                    if((confidence * 100) > labelPercentage){
+                        labelPercentage = confidence * 100;
+                        labelName = eachLabel;
+                    }
+                    //textView.append(eachLabel + " : " + (""+confidence * 100).subSequence(0,4)+"%"+"\n");
                 }
+                textView.append(labelName + " : " + (""+labelPercentage).subSequence(0,4)+"%"+"\n");
+                shops.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -129,5 +169,10 @@ public class ObjectDetection extends AppCompatActivity {
         dialog.setMessage("Loading...");
         dialog.setCancelable(false);
         dialog.show();
+    }
+
+    public void VisitShops(){
+        Intent intent = new Intent(this, ShopsActivity.class);
+        startActivity(intent);
     }
 }

@@ -20,6 +20,7 @@ public class RecommenderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommender);
+        getSupportActionBar().setTitle("Recommended Items");
         itemList = findViewById(R.id.recommended_list);
         dataModels = new ArrayList<RowDataModel>();
         for( int i = 0; i < 5; i ++){
