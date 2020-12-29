@@ -14,7 +14,7 @@
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_height="wrap_content"
-        android:text="@string/detected_items"
+        android:text="Recommended Items"
         app:layout_constraintBottom_toTopOf="@+id/recommended_list"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

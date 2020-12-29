@@ -22,8 +22,8 @@ public class RecommenderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recommender);
         itemList = findViewById(R.id.recommended_list);
         dataModels = new ArrayList<RowDataModel>();
-        for( int i = 0; i < 5; i ++){
-            dataModels.add(new RowDataModel("Item" + i));
+        for( int i = 0; i < 6; i ++){
+            dataModels.add(new RowDataModel("Item " + i));
         }
 
         customAdapter = new CustomAdapter(dataModels,getApplicationContext());

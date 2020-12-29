@@ -17,6 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ShopsActivity">
+
+        </activity>
+
+        <activity android:name=".RecommenderActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,6 +28,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ObjectDetection">
+
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
