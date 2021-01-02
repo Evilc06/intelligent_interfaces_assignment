@@ -10,10 +10,13 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -36,6 +39,7 @@ import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceAutoMLImageLabelerOptions;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -43,6 +47,7 @@ public class ObjectDetection extends AppCompatActivity {
     ImageView imageView;
     Button button;
     Button shops;
+    Button camera;
     TextView textView;
 
     ProgressDialog dialog;
@@ -69,6 +74,7 @@ public class ObjectDetection extends AppCompatActivity {
         imageView = findViewById(R.id.image);
         button = findViewById(R.id.button);
         shops = findViewById(R.id.gotoshops);
+        camera = findViewById(R.id.camera);
         textView = findViewById(R.id.text);
 
         dialog = new ProgressDialog(this);
@@ -84,6 +90,14 @@ public class ObjectDetection extends AppCompatActivity {
                     intent.setType("image/*");
                     startActivityForResult(Intent.createChooser(intent, "Classifier"), ACCESS_FILE);
                 }
+            }
+        });
+
+        camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 1888);
             }
         });
 
@@ -115,13 +129,26 @@ public class ObjectDetection extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode == ACCESS_FILE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null){
             Uri uri = data.getData();
             FirebaseModelManager.getInstance().download(remoteModel,conditions);
             setLabelFromLocalModel(uri);
             textView.setText("");
             imageView.setImageURI(uri);
+        }else if(requestCode == 1888 && resultCode == Activity.RESULT_OK){
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            setLabelFromLocalModel(getImageUri(photo));
+            imageView.setImageBitmap(photo);
+            textView.setText("");
         }
+    }
+
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
 
     private void setLabelFromLocalModel(Uri uri) {
@@ -154,7 +181,12 @@ public class ObjectDetection extends AppCompatActivity {
                     }
                     //textView.append(eachLabel + " : " + (""+confidence * 100).subSequence(0,4)+"%"+"\n");
                 }
-                textView.append(labelName + " : " + (""+labelPercentage).subSequence(0,4)+"%"+"\n");
+                if(labelPercentage >= 65f){
+                    textView.append(labelName + " : " + (""+labelPercentage).subSequence(0,4)+"%"+"\n");
+                }else{
+                    textView.append("No items detected.");
+                }
+
                 shops.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
