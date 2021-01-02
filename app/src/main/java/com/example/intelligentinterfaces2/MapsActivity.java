@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -61,6 +62,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+        Intent myIntent = getIntent();
+        int shop = myIntent.getIntExtra("shop_id", 0);
+        System.out.println("Shop clicked: " + shop);
     }
 
     @Override

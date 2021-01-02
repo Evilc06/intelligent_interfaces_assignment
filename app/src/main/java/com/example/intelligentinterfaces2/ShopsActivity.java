@@ -1,5 +1,6 @@
 package com.example.intelligentinterfaces2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,8 +41,15 @@ public class ShopsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RowDataModelShops clickedRow = dataModelShops.get(position);
                 Toast.makeText(ShopsActivity.this, clickedRow.getItem(), Toast.LENGTH_SHORT).show();
+                visitMap(position);
             }
         });
+    }
+
+    public void visitMap(int shopChosen){
+        Intent intent = new Intent(this, MapsActivity.class);
+        intent.putExtra("shop_id", shopChosen);
+        startActivity(intent);
     }
 }
 
