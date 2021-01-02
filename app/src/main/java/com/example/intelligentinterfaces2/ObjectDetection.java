@@ -183,11 +183,10 @@ public class ObjectDetection extends AppCompatActivity {
                 }
                 if(labelPercentage >= 65f){
                     textView.append(labelName + " : " + (""+labelPercentage).subSequence(0,4)+"%"+"\n");
+                    shops.setVisibility(View.VISIBLE);
                 }else{
-                    textView.append("No items detected.");
+                    textView.append("No items detected. Try Again.");
                 }
-
-                shops.setVisibility(View.VISIBLE);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
