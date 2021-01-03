@@ -1,5 +1,6 @@
 package com.example.intelligentinterfaces2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,8 +35,13 @@ public class RecommenderActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 RowDataModel clickedRow = dataModels.get(position);
-                Toast.makeText(RecommenderActivity.this, clickedRow.getItem(), Toast.LENGTH_SHORT).show();
+                VisitShops();
             }
         });
+    }
+
+    public void VisitShops(){
+        Intent intent = new Intent(this, ShopsActivity.class);
+        startActivity(intent);
     }
 }
