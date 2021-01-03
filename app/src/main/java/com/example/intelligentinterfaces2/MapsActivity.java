@@ -1,5 +1,6 @@
 package com.example.intelligentinterfaces2;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,7 +42,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private LocationManager mLocationManager;
@@ -49,6 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng mOrigin;
     private LatLng mDestination;
     private Polyline mPolyline;
+    private int shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,32 +64,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
 
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(MapsActivity.this);
+
 
         Intent myIntent = getIntent();
-        int shop = myIntent.getIntExtra("shop_id", 0);
+        shop = myIntent.getIntExtra("shop_id", 0);
         System.out.println("Shop clicked: " + shop);
-        setDestination(shop);
-
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        // I suppressed the missing-permission warning because this wouldn't be executed in my
-        // case without location services being enabled
-        @SuppressLint("MissingPermission") android.location.Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-        double userLat = lastKnownLocation.getLatitude();
-        double userLong = lastKnownLocation.getLongitude();
-        mOrigin = new LatLng(userLat, userLong);
-
-
-        if(mOrigin != null && mDestination != null) {
-            drawRoute();
-            Log.d("TestingDest", "not null");
-        }else{
-            if(mOrigin == null){
-                Log.d("TestingDest", "null");
-            }
-
-        }
     }
 
     public void setDestination(int shop){
@@ -112,8 +95,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         System.out.println("Ready");
         mMap = googleMap;
         getMyLocation();
-    }
 
+        setDestination(shop);
+
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        // I suppressed the missing-permission warning because this wouldn't be executed in my
+        // case without location services being enabled
+        @SuppressLint("MissingPermission") android.location.Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        double userLat = lastKnownLocation.getLatitude();
+        double userLong = lastKnownLocation.getLongitude();
+        mOrigin = new LatLng(userLat, userLong);
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mOrigin,15));
+
+        if (mOrigin != null && mDestination != null) {
+            mMarkerOptions = new MarkerOptions().position(mDestination).title("Destination");
+            mMap.addMarker(mMarkerOptions);
+
+            drawRoute();
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -282,6 +284,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         return data;
     }
+
 
     /** A class to download data from Google Directions URL */
     private class DownloadTask extends AsyncTask<String, Void, String> {
