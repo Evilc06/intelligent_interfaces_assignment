@@ -66,6 +66,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent myIntent = getIntent();
         int shop = myIntent.getIntExtra("shop_id", 0);
         System.out.println("Shop clicked: " + shop);
+        setDestination(shop);
+
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        String locationProvider = LocationManager.NETWORK_PROVIDER;
+        // I suppressed the missing-permission warning because this wouldn't be executed in my
+        // case without location services being enabled
+        @SuppressLint("MissingPermission") android.location.Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
+        double userLat = lastKnownLocation.getLatitude();
+        double userLong = lastKnownLocation.getLongitude();
+        mOrigin = new LatLng(userLat, userLong);
+
+
+        if(mOrigin != null && mDestination != null) {
+            drawRoute();
+            Log.d("TestingDest", "not null");
+        }else{
+            if(mOrigin == null){
+                Log.d("TestingDest", "null");
+            }
+
+        }
+    }
+
+    public void setDestination(int shop){
+        if(shop == 0){
+            mDestination = new LatLng((double)35.89199061400388, (double)14.485021140047582);
+        }else if(shop == 1){
+            mDestination = new LatLng((double)35.91606627362128, (double)14.4483150823757);
+        }else if(shop ==  2){
+            mDestination = new LatLng((double) 35.893272869007475, (double)14.477308028409926);
+        }else if(shop == 3){
+            mDestination = new LatLng((double)35.912790226001455, (double)14.5046678688844);
+        }else if(shop == 4){
+            mDestination = new LatLng((double)35.878498343625495, (double)14.481279295866152);
+        }else if(shop == 5){
+            mDestination = new LatLng((double)35.9045708476675, (double)14.435923384229065);
+        }else if(shop == 6){
+            mDestination = new LatLng((double)35.9011501566831, (double)14.455081499573897);
+        }
     }
 
     @Override
@@ -105,15 +144,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Getting LocationManager object from System Service LOCATION_SERVICE
         mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        // I suppressed the missing-permission warning because this wouldn't be executed in my
-        // case without location services being enabled
-        @SuppressLint("MissingPermission") android.location.Location lastKnownLocation = locationManager.getLastKnownLocation(locationProvider);
-        double userLat = lastKnownLocation.getLatitude();
-        double userLong = lastKnownLocation.getLongitude();
-        mOrigin = new LatLng(userLat, userLong);
 
         mLocationListener = new LocationListener() {
 
