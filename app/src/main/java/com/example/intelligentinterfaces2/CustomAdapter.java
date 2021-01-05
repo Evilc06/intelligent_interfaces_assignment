@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,6 +23,7 @@ public class CustomAdapter extends ArrayAdapter<RowDataModel> implements View.On
 
     private static class ViewHolder {
         TextView itemTxtName;
+        ImageView image;
     }
 
     public CustomAdapter(ArrayList<RowDataModel> data, Context context){
@@ -86,6 +88,7 @@ public class CustomAdapter extends ArrayAdapter<RowDataModel> implements View.On
             LayoutInflater inflater = LayoutInflater.from(getContext());
             convertView = inflater.inflate(R.layout.item_row, parent, false);
             viewHolder.itemTxtName = (TextView) convertView.findViewById(R.id.item_text);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.row_image);
 
             result=convertView;
 
@@ -100,6 +103,7 @@ public class CustomAdapter extends ArrayAdapter<RowDataModel> implements View.On
         lastPosition = position;
 
         viewHolder.itemTxtName.setText(dataModel.getItem());
+        viewHolder.image.setImageResource(dataModel.getImageName());
 
         // Return the completed view to render on screen
         return convertView;

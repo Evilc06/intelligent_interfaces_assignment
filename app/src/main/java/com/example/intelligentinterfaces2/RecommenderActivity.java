@@ -24,9 +24,11 @@ public class RecommenderActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Recommended Items");
         itemList = findViewById(R.id.recommended_list);
         dataModels = new ArrayList<RowDataModel>();
-        for( int i = 0; i < 6; i ++){
-            dataModels.add(new RowDataModel("Item " + i));
-        }
+        dataModels.add(new RowDataModel("Cereal", R.drawable.cereal));
+        dataModels.add(new RowDataModel("Apples", R.drawable.apple));
+        dataModels.add(new RowDataModel("Burger", R.drawable.burger));
+        dataModels.add(new RowDataModel("Churros", R.drawable.churros));
+        dataModels.add(new RowDataModel("Milk", R.drawable.milk));
 
         customAdapter = new CustomAdapter(dataModels,getApplicationContext());
         itemList.setAdapter(customAdapter);
